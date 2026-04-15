@@ -4,7 +4,7 @@
 ## **1. PROJECT OVERVIEW**
 <br>
 
-This project is a high-performance, modular quadcopter system developed specifically for the **Inspire Award**. 
+This project is a modular quadcopter system developed specifically for the **Inspire Award**. 
 
 <br>
 
@@ -12,7 +12,7 @@ Instead of using a standard all-in-one flight controller, this system breaks the
 
 <br>
 
-By separating the **Transmitter**, **Receiver**, and **Flight Controller**, we achieve maximum processing speed and a highly educational "pure code" environment that is easy to troubleshoot and modify.
+By separating the **Transmitter**, **Receiver**, and **Flight Controller**, we achieve maximum processing speed and a highly educational environment that is easy to troubleshoot and modify.
 
 <br>
 <br>
@@ -21,38 +21,21 @@ By separating the **Transmitter**, **Receiver**, and **Flight Controller**, we a
 
 <br>
 
-## **2. THE TRANSMITTER (TX) MODULE**
+## **2. COMPONENT BREAKDOWN**
 <br>
 
-The Transmitter acts as the ground station. It uses an Arduino Nano to read the raw analog data from two dual-axis joysticks. 
-
-<br>
-
-The code maps these values (0-1023) into a single-byte format (0-255) to keep the wireless packets small and fast. This ensures there is zero "lag" between your hand movements and the drone's reaction.
+### **A. Transmitter (TX Code)**
+The Transmitter Nano reads raw analog data from dual-axis joysticks and maps them (0-1023) into a single-byte format (0-255). It uses the **NRF24L01+PA+LNA** to broadcast signals with zero "lag."
 
 <br>
 
-The **NRF24L01+PA+LNA** module is used here to broadcast these signals over long distances with high reliability.
-
-<br>
-<br>
-
----
+### **B. Receiver (RX Code)**
+The Receiver Nano catches the wireless data packets and converts them into a **PPM (Pulse Position Modulation)** signal. This allows all control data to travel over a **single wire** to the brain of the drone.
 
 <br>
 
-## **3. THE RECEIVER (RX) MODULE**
-<br>
-
-The Receiver Nano is the bridge between the air and the drone's brain. 
-
-<br>
-
-It listens for the specific "Pipe Address" sent by the transmitter. Once it catches the data, it uses a complex timing interrupt to generate a **PPM (Pulse Position Modulation)** signal.
-
-<br>
-
-This allows us to send all 7 channels of control data through **one single signal wire** to the Flight Controller, significantly reducing weight and wiring complexity.
+### **C. Flight Controller (FC Code)**
+Running a custom-tuned **MultiWii** configuration, this Nano uses the **MPU6050** sensor to run high-speed PID loops. It calculates motor adjustments hundreds of times per second to keep the flight stable.
 
 <br>
 <br>
@@ -61,22 +44,14 @@ This allows us to send all 7 channels of control data through **one single signa
 
 <br>
 
-## **4. THE FLIGHT CONTROLLER (FC) MODULE**
+## **3. SENSOR PRECISION**
 <br>
 
-The "Brain" of the drone runs a custom-configured version of the **MultiWii Firmware**.
-
-<br>
-
-The software runs a high-speed PID (Proportional-Integral-Derivative) loop that calculates motor adjustments hundreds of times per second to keep the drone perfectly level, even during external disturbances like wind.
+Included in this repository is the **MPU6050 Calibration** script. 
 
 <br>
 
-Key settings enabled in the **config.h** file include:
-*   **QUAD-X Layout:** Sets the 4-motor geometry.
-*   **GY-521 Driver:** Activates the MPU6050 I2C communication.
-*   **SERIAL_SUM_PPM:** Enables the single-wire communication from the RX Nano.
-*   **MPU6050_LPF_42HZ:** Filters motor vibrations to keep the sensor data clean.
+Every sensor has small manufacturing errors (offsets). By running this script on a flat surface before flight, you calculate these specific errors and save them to the Nano. This ensures your drone stays perfectly level without drifting.
 
 <br>
 <br>
@@ -85,14 +60,14 @@ Key settings enabled in the **config.h** file include:
 
 <br>
 
-## **5. REPOSITORY STRUCTURE**
+## **4. INCLUDED FILES**
 <br>
 
-*   📂 **/Transmitter_Nano**: Joystick-to-NRF24 broadcast code.
-*   📂 **/Receiver_Nano**: NRF24-to-PPM translation code.
-*   📂 **/Flight_Controller_Nano**: Full MultiWii source folder.
-*   📂 **/Calibration_Tools**: Specialized MPU6050 offset calculation scripts.
-*   📂 **/MultiWii_GUI_Tools**: Visual interface for real-time sensor monitoring.
+*   📄 **Transmitter_Code.ino**: Code for the remote control Nano.
+*   📄 **Receiver_Code.ino**: Code for the antenna-to-PPM Nano.
+*   📄 **Flight_Controller_Code.ino**: Pre-configured MultiWii logic for the drone.
+*   📄 **MPU6050_Calibration.ino**: Tool for high-precision sensor leveling.
+*   📦 **MultiWii_GUI.rar**: The official software to monitor your drone sensors on a PC.
 
 <br>
 <br>
@@ -112,7 +87,7 @@ If this modular drone project helps you with your own engineering journey or Ins
 
 <br>
 
-**Please STARRING this repository to help other student engineers find this resource!**
+**Please STAR this repository to help other student engineers find this resource!**
 
 <br>
 <br>
