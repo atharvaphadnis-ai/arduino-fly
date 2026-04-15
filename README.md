@@ -76,6 +76,18 @@ Every sensor has small manufacturing errors (offsets). By running this script on
 
 <br>
 
+## **📬 CONTACT & FEEDBACK**
+<br>
+
+If you find something wrong with the code or have suggestions for improvement, please **Gmail me at atharvaphadnis8@gmail.com**.
+
+<br>
+<br>
+
+---
+
+<br>
+
 ## **⭐ SUPPORT THE PROJECT**
 <br>
 
